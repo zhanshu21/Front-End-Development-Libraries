@@ -1,0 +1,93 @@
+/* nesting css */
+.blog-post {
+    h1 {
+    text-align: center;
+    color: blue;
+  }
+    p {
+    font-size: 20px;
+  }
+}
+
+/* @for: for loop */
+@for $j from 1 through 6 {
+    .text-#{$j} {
+      font-size: 15px * $j;
+    }
+}
+
+$x: 1;
+/* while loop */
+@while $x <= 5 {
+    /* '#{$x}' - string x */
+    .text-#{$x} { font-size:15px * $x; }
+    $x: $x + 1;
+}
+
+/* @mixin: reusable css */
+@mixin shape($w, $h, $bg-color) {
+width: $w;
+height: $h;
+background-color: $bg-color;
+
+}
+/* @include: to reuse */
+#square {
+@include shape(50px, 50px, red);
+}
+
+#rect-a {
+@include shape(100px, 50px, blue);
+}
+
+#rect-b {
+@include shape(50px, 100px, orange);
+}
+
+h3{
+text-align: center;
+}
+.info{
+width: 200px;
+border: 1px solid black;
+margin: 0 auto;
+}
+/* @extend: extend one css styles */
+.info-important {
+@extend .info;
+background-color: magenta;
+}
+
+/* @each: map over items in a list */
+@each $color in blue, black, red {
+    .#{$color}-bg {
+      background-color: $color;
+    }
+}
+
+/* if-else */
+@mixin border-stroke($val) {
+    @if $val == light {
+      border: 1px solid black;
+    }
+  
+    @else if $val == medium {
+      border: 3px solid black;
+    }
+  
+    @else if $val == heavy {
+      border: 6px solid black;
+    }
+  
+    @else {
+      border: none;
+    }
+  }
+  
+  
+#box {
+    width: 150px;
+    height: 150px;
+    background-color: red;
+    @include border-stroke(medium);
+}
