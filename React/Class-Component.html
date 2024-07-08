@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <div id="challenge-node"></div>
+  <div id="block-1"></div>
+  <div id="block-2"></div>
+  <div id="block-3"></div>
+  <div id="block-4"></div>
+  <div id="block-5"></div>
+  <div id="block-6"></div>
+  <div id="block-7"></div>
+  <div id="block-8"></div>
+  <div id="block-9"></div>
+  <div id="block-a"></div>
+</body>
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom": "https://esm.sh/react-dom?dev"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+// a stateless component
+// class component must include the extends React.Component
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    // Change code below this line
+    return (
+      <div>
+        <h1>Hello React!</h1>
+      </div>
+    );
+    // Change code above this line
+  }
+};
+
+// create a component with composition
+const ChildComponent = () => {
+  return (
+    <div>
+      <p>I am the child</p>
+    </div>
+  );
+};
+class ParentComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h1>I am the parent</h1>
+        { /* Change code below this line */ }
+          <ChildComponent />
+        { /* Change code above this line */ }
+      </div>
+    );
+  }
+};
+
+// nest components: class -> <functions /> -> <functions />
+const TypesOfFruit = () => {
+  return (
+    <div>
+      <h2>Fruits:</h2>
+      <ul>
+        <li>Apples</li>
+        <li>Blueberries</li>
+        <li>Strawberries</li>
+        <li>Bananas</li>
+      </ul>
+    </div>
+  );
+};
+const Fruits = () => {
+  return (
+    <div>
+      { /* Change code below this line */ }
+      <TypesOfFruit />
+      { /* Change code above this line */ }
+    </div>
+  );
+};
+// compose a class component into another class component
+class Vegetables extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h2>Vegetables:</h2>
+        { /* Change code below this line */ }
+        <p>Chinakohl</p>
+        { /*<NonCitrus />
+        <Citrus /> */}
+        { /* Change code above this line */ }
+      </div>
+    );
+  }
+};
+class TypesOfFood extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Types of Food:</h1>
+        { /* Change code below this line */ }
+        <Fruits />
+        <Vegetables />
+        { /* Change code above this line */ }
+      </div>
+    );
+  }
+};
+
+// stateful class component: this.property
+class StatefulComponent1 extends React.Component {
+  constructor(props) {
+    super(props);
+    // Only change code below this line
+    
+      this.state = {firstName: "my name"};
+    
+    // Only change code above this line
+  }
+  render() {
+    return (
+      <div>
+        <h1>{this.state.firstName}</h1>
+      </div>
+    );
+  }
+};
+
+// another way to render state in UI
+class StatefulComponent2 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: 'freeCodeCamp'
+    }
+  }
+  render() {
+    // assign to a const first
+    const name = this.state.name;
+    return (
+      <div>
+        { /* Change code below this line */ }
+          <h1>{name}</h1>
+        { /* Change code above this line */ }
+      </div>
+    );
+  }
+};
+
+// Render Component to html
+ReactDOM.render(<MyComponent />, document.getElementById('challenge-node'));
+ReactDOM.render(<ParentComponent />, document.getElementById('block-1'));
+ReactDOM.render(<TypesOfFood />, document.getElementById('block-2'));
+ReactDOM.render(<StatefulComponent1 />, document.getElementById('block-3'));
+ReactDOM.render(<StatefulComponent2 />, document.getElementById('block-4'));
+</script>
+</html>

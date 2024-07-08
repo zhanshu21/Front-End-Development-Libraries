@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <div id="challenge-node"></div>
+  <div id="stateless-fun"></div>
+  <div id="props"></div>
+  <div id="props-array"></div>
+  <div id="props-override"></div>
+</body>
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom": "https://esm.sh/react-dom?dev",
+    "prop-types": "https://esm.sh/prop-types"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React, { StrictMode } from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+
+// JSX allows us to write HTML elements in JavaScript: a large block
+const JSX = (
+  <div>
+    <h1>Hello World</h1>
+    <p>Lets render this to the DOM</p>
+  </div>
+);
+
+// stateless functional component
+const MyComponent = function() {
+    return (
+    <div className='customClass' >This is a stateless functional component.</div>
+  );
+}
+
+//pass props to a stateless functional component
+const CurrentDate = (props) => {
+  return (
+    <div>
+      { /* contents in curly braces is javascript code */ }
+      <p>The current date is: {props.date} </p>
+      { /* Change code above this line */ }
+    </div>
+  );
+};
+class Calendar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h3>What date is it?</h3>
+        { /* pass value to prop.date, in html format */ }
+        <CurrentDate date={Date()} />
+        { /* Change code above this line */ }
+      </div>
+    );
+  }
+};
+
+// pass an array as props: join function
+const List = (props) => {
+  { /* Change code below this line */ }
+  return <p>{props.tasks.join(", ")}</p>
+  { /* Change code above this line */ }
+};
+class ToDo extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h1>To Do Lists</h1>
+        <h2>Today</h2>
+        { /* Change code below this line */ }
+        <List tasks={["walk dog", "workout"]} />
+        <h2>Tomorrow</h2>
+        <List tasks={["walk dog", "workout","study"]}/>
+        { /* Change code above this line */ }
+      </div>
+    );
+  }
+};
+
+// set default props and proptype
+const Items = (props) => {
+  return <h1>Current Quantity of Items in Cart: {props.quantity}</h1>
+}
+Items.defaultProps = {
+  quantity: 0
+}
+Items.propTypes = {quantity: PropTypes.number.isRequired};
+// override props
+class ShoppingCart extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    { /* Change code below this line */ }
+    return <Items quantity={10} />
+    { /* Change code above this line */ }
+  }
+};
+
+// render component to DOM
+ReactDOM.render(JSX, document.getElementById('challenge-node'));
+// render <MyComponent /> as a component instance 
+ReactDOM.render(<MyComponent />, document.getElementById('stateless-fun'));
+ReactDOM.render(<Calendar />, document.getElementById('props'));
+ReactDOM.render(<ToDo />, document.getElementById('props-array'));
+ReactDOM.render(<ShoppingCart />, document.getElementById('props-override'));
+</script>
+
+</html>
