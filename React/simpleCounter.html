@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <div id="block-1"></div>
+</body>
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom": "https://esm.sh/react-dom?dev"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+    // Change code below this line
+    this.increment = this.increment.bind(this);
+    this.decrement = this.decrement.bind(this);
+    this.reset = this.reset.bind(this);
+    // Change code above this line
+  }
+  // Change code below this line
+  increment() {
+    this.setState(state => ({
+      count: state.count + 1
+    }));
+  }
+
+  decrement() {
+    this.setState(state => ({
+      count: state.count - 1
+    }));
+  }
+
+  reset() {
+    this.setState({
+      count: 0
+    });
+  }
+  // Change code above this line
+  render() {
+    return (
+      <div>
+        <button className='inc' onClick={this.increment}>Increment!</button>
+        <button className='dec' onClick={this.decrement}>Decrement!</button>
+        <button className='reset' onClick={this.reset}>Reset</button>
+        <h1>Current Count: {this.state.count}</h1>
+      </div>
+    );
+  }
+};
+
+// Render Component to html
+ReactDOM.render(<Counter />, document.getElementById('block-1'));
+
+</script>
+</html>
