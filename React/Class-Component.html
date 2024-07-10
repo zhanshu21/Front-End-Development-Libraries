@@ -169,11 +169,77 @@ class StatefulComponent2 extends React.Component {
   }
 };
 
+// setState() 1 : use setState to set state 
+class SetStateCom1 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: 'Initial State'
+    };
+    // need to bind all comtumised methods
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    // change the state when click, but visually only change once
+    this.setState({
+      name: 'React Rocks!'
+    })
+  }
+  render() {
+    return (
+      <div>
+        {/* onClick={this.handleClick} 
+          The onclick event occurs when the user clicks on an HTML element.
+          when click the button => call handleCLick() */}
+        <button onClick={this.handleClick}>Click Me</button>
+        <h1>{this.state.name}</h1>
+      </div>
+    );
+  }
+};
+
+
+// setState() 2: use setState to toggle 
+class SetStateCom2 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visibility: false
+    };
+    this.toggleVisibility = this.toggleVisibility.bind(this)
+  }
+  toggleVisibility() {
+    // nextState.visibility = not thisState.visibility
+    // visibility should toggle back and forth between true and false
+    this.setState(state => ({
+      visibility: !state.visibility
+    }));
+  }
+  render() {
+    if (this.state.visibility) {
+      return (
+        <div>
+          <button onClick={this.toggleVisibility}>Click Me</button>
+          <h1>Now you see me!</h1>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <button onClick={this.toggleVisibility}>Click Me</button>
+        </div>
+      );
+    }
+  }
+}
+
 // Render Component to html
 ReactDOM.render(<MyComponent />, document.getElementById('challenge-node'));
 ReactDOM.render(<ParentComponent />, document.getElementById('block-1'));
 ReactDOM.render(<TypesOfFood />, document.getElementById('block-2'));
 ReactDOM.render(<StatefulComponent1 />, document.getElementById('block-3'));
 ReactDOM.render(<StatefulComponent2 />, document.getElementById('block-4'));
+ReactDOM.render(<SetStateCom1 />, document.getElementById('block-5'));
+ReactDOM.render(<SetStateCom2 />, document.getElementById('block-6'));
 </script>
 </html>
