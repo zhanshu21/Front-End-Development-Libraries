@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <div id="block-1"></div>
+  <div id="block-2"></div>
+</body>
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom": "https://esm.sh/react-dom?dev"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+// a single controlled input: value and onChange
+class ControlledInput extends React.Component {
+  constructor(props) {
+    super(props);
+    // add input to state
+    this.state = {
+      input: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+//   add a method to handle change of value
+  handleChange(event) {
+    this.setState({
+      input: event.target.value
+    });
+  }
+  render() {
+    return (
+      <div>
+        { /* Change code below this line */}
+        <input value={this.state.input} onChange={this.handleChange} />
+        { /* Change code above this line */}
+        <h4>Controlled Input:</h4>
+        <p>{this.state.input}</p>
+      </div>
+    );
+  }
+};
+
+// a controlled form: change value and submit value
+class MyForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      input: '',
+      submit: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleChange(event) {
+    this.setState({
+      input: event.target.value
+    });
+  }
+  handleSubmit(event) {
+    // Change code below this line
+    // avoid re-render 
+    event.preventDefault();
+    this.setState(state => ({
+      submit: state.input
+    }));
+    // Change code above this line
+  }
+  render() {
+    return (
+      <div>
+        <h1>Controlled Form: (with submit)</h1>
+        <form onSubmit={this.handleSubmit}>
+          <input value={this.state.input} onChange={this.handleChange} />
+          <button type='submit'>Submit!</button>
+        </form>
+        <h1>{this.state.submit}</h1>
+      </div>
+    );
+  }
+}
+
+// Render Component to html
+ReactDOM.render(<ControlledInput />, document.getElementById('block-1'));
+ReactDOM.render(<MyForm />, document.getElementById('block-2'));
+
+</script>
+</html>
