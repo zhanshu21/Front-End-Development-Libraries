@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <div id="block-1"></div>
+  <div id="block-2"></div>
+  <div id="block-3"></div>
+  <div id="block-4"></div>
+</body>
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom": "https://esm.sh/react-dom?dev"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+class beforeRender extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+//   The componentWillMount() method is called before the render() method when a component is being mounted to the DOM
+  componentWillMount() {
+    // Change code below this line
+    console.log('Component being mounted');
+    // Change code above this line
+  }
+  render() {
+    return <div />
+  }
+};
+
+class afterRender extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeUsers: null
+    };
+  }
+// after all the elements of the page is rendered correctly, componentDidMount()  is called
+  componentDidMount() {
+    // call an API endpoint to retrieve data. 
+    // It sets state after 2.5 seconds to simulate calling a server to retrieve data.
+    setTimeout(() => {
+      this.setState({
+        activeUsers: 1273
+      });
+    }, 2500);
+  }
+  render() {
+    return (
+      <div>
+        {/* Change code below this line */}
+        <h1>Active Users: {this.state.activeUsers} </h1>
+        {/* Change code above this line */}
+      </div>
+    );
+  }
+}
+
+class eventListeners extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: ''
+    };
+    this.handleEnter = this.handleEnter.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+  // Change code below this line
+  // componentDidMount() method is also the best place to attach any event listeners you need to add for specific functionality.
+  componentDidMount() {
+     document.addEventListener("keydown", this.handleKeyPress);
+  }
+//  remove the event listeners after unmount 
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyPress);
+  }
+  // Change code above this line
+  handleEnter() {
+    this.setState((state) => ({
+      message: state.message + 'You pressed the enter key! '
+    }));
+  }
+  handleKeyPress(event) {
+    if (event.keyCode === 13) {
+      this.handleEnter();
+    }
+  }
+  render() {
+    return (
+      <div>
+        <h1>{this.state.message}</h1>
+      </div>
+    );
+  }
+};
+
+// using shouldComponentUpdate(nextProps, nextState) and componentDidUpdate() to optimize re-render 
+// the default behavior is that your component re-renders when it receives new props, even if the props haven't changed.
+// use shouldComponentUpdate() to prevent this by comparing the props. 
+// OnlyEvens updates only if the value of its new props is even
+class OnlyEvens extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('Should I update?');
+    // Change code below this line
+    if (nextProps.value % 2 == 0) {
+      return true;
+    }
+      return false;
+    // Change code above this line
+  }
+  componentDidUpdate() {
+    console.log('Component re-rendered.');
+  }
+  render() {
+    return <h1>{this.props.value}</h1>;
+  }
+}
+class Controller extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 0
+    };
+    this.addValue = this.addValue.bind(this);
+  }
+  addValue() {
+    this.setState(state => ({
+      value: state.value + 1
+    }));
+  }
+  render() {
+    return (
+      <div>
+        <button onClick={this.addValue}>Add</button>
+        <OnlyEvens value={this.state.value} />
+      </div>
+    );
+  }
+}
+
+// Render Component to html
+ReactDOM.render(<beforeRender />, document.getElementById('block-1'));
+ReactDOM.render(<afterRender />, document.getElementById('block-2'));
+ReactDOM.render(<eventListeners />, document.getElementById('block-3'));
+ReactDOM.render(<OnlyEvens />, document.getElementById('block-4'));
+
+</script>
+</html>
